@@ -2,6 +2,15 @@
 
 一个完整的外卖订餐管理系统，包含管理端和用户端。
 
+## 🟢 当前状态
+
+- **开发环境**：前端 element-plus 依赖问题已解决 ✅
+- **后端服务**：可正常启动 (Port: 8080) ✅
+- **前端管理端**：Vite + Element Plus 正常运行 ✅
+- **前端用户端**：Vite + Element Plus 正常运行 ✅
+- **数据库**：MySQL 9.4.0 兼容 ✅
+- **AI客服**：DeepSeek API 已集成 ✅
+
 ---
 
 ## 项目介绍
@@ -190,11 +199,11 @@ meal-order-system/
 │   ├── 🔍 test_queries.sql              # SQL测试查询脚本
 │   └── 📖 SQL_SCRIPTS_GUIDE.md          # SQL脚本详细使用指南
 │
-├── 🔧 scripts/                          # BAT启动脚本
-│   ├── 🚀 一键启动所有服务.bat          # 一键启动三端服务
-│   ├── 🗄️ 初始化数据库.bat              # 数据库初始化
-│   ├── 🔍 执行数据库测试.bat            # 执行SQL测试查询
-│   └── 🛑 停止所有服务.bat              # 停止所有服务
+├── 🔧 scripts/                          # BAT startup scripts
+│   ├── 🚀 start_all_services.bat       # Start all three services in one click
+│   ├── 🗄️ initialize_database.bat      # Database initialization
+│   ├── 🔍 run_database_tests.bat       # Run SQL test queries
+│   └── 🛑 stop_all_services.bat        # Stop all services
 │
 ├── 🔨 backend/                          # Spring Boot后端
 │   ├── 📄 pom.xml                       # Maven配置
@@ -221,24 +230,24 @@ meal-order-system/
 
 #### 操作步骤
 
-1. **初始化数据库**（仅首次运行）
+1. **Initialize Database** (first time only)
    ```bash
-   双击运行: scripts\初始化数据库.bat
+   Double-click: scripts\initialize_database.bat
    ```
-   输入您的MySQL root密码，脚本将自动：
-   - 创建 `meal_order_system` 数据库
-   - 建立所有表结构
-   - 插入测试数据
+   Enter your MySQL root password, script will automatically:
+   - Create `meal_order_system` database
+   - Create all table structures
+   - Insert test data
 
-2. **一键启动所有服务**
+2. **Start All Services**
    ```bash
-   双击运行: scripts\一键启动所有服务.bat
+   Double-click: scripts\start_all_services.bat
    ```
-   脚本将自动：
-   - 安装前端依赖（首次需要时间）
-   - 启动Spring Boot后端（端口8080）
-   - 启动管理端前端（端口5173）
-   - 启动用户端前端（端口5174）
+   Script will automatically:
+   - Install frontend dependencies (takes time on first run)
+   - Start Spring Boot backend (port 8080)
+   - Start admin frontend (port 5173)
+   - Start user frontend (port 5174)
 
 #### 验证启动成功
 
