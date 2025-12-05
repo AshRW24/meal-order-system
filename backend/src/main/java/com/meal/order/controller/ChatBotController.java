@@ -43,8 +43,19 @@ public class ChatBotController {
         try {
             Long userId = (Long) session.getAttribute("userId");
             String username = (String) session.getAttribute("username");
+            Integer userType = (Integer) session.getAttribute("userType");
 
-            log.info("用户 {} 发送消息: {}", userId != null ? userId : "未登录", chatMessageDTO.getMessage());
+            // 权限验证：只有普通用户(userType=1)才能使用chatbot，管理员(userType=2)不允许
+            if (userType == null || userType != 1) {
+                log.warn("非法的AI客服访问尝试 - 用户: {}, 类型: {}", username, userType);
+                return Result.error("仅普通用户可以使用AI客服功能");
+            }
+
+            if (userId == null) {
+                return Result.error("请先登录");
+            }
+
+            log.info("用户 {} 发送消息到AI客服: {}", username, chatMessageDTO.getMessage());
 
             // 调用ChatBot服务获取AI回复
             String aiResponse = chatBotService.chat(chatMessageDTO.getMessage());
