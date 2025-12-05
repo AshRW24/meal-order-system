@@ -29,5 +29,9 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+    middlewareMode: false,
+  },
+  preview: {
+    port: 5174,
   },
 })
