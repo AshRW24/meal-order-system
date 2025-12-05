@@ -48,7 +48,7 @@ echo [OK] MySQL connection successful
 echo.
 
 echo Checking if meal_order_system database exists...
-mysql -u root -p%MYSQL_PASSWORD% -e "SHOW DATABASES LIKE 'meal_order_system';" | findstr "meal_order_system" >nul 2>&1
+mysql -u root -p%MYSQL_PASSWORD% -e "SHOW DATABASES;" | findstr /C:"meal_order_system" >nul 2>&1
 if errorlevel 1 (
     echo [WARNING] Database 'meal_order_system' does not exist
     echo.
@@ -68,6 +68,9 @@ if errorlevel 1 (
         pause
         exit /b 1
     )
+) else (
+    echo [OK] Database 'meal_order_system' exists
+    echo.
 )
 
 echo.
