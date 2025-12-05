@@ -58,10 +58,11 @@ Thumbs.db
 uploads/
 !uploads/.gitkeep
 
-# 数据库备份
-*.sql
+# 数据库备份和临时SQL文件
 *.sql.gz
 backup/
+# 但保留项目需要的SQL脚本
+!database/*.sql
 
 # 保留根目录的主页 README（项目必要文件）
 !README.md
