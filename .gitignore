@@ -1,3 +1,6 @@
+# Ignore only docs folder and common development artifacts
+docs/
+
 # macOS
 .DS_Store
 .AppleDouble
@@ -14,9 +17,6 @@ dist/
 # Java
 target/
 *.class
-*.jar
-*.war
-*.ear
 .idea/
 *.iml
 .mvn/
@@ -30,7 +30,7 @@ logs/
 *.swp
 *.swo
 
-# Environment
+# Environment variables
 .env
 .env.local
 .env.*.local
@@ -39,30 +39,16 @@ logs/
 build/
 out/
 
-# AI Generated Documentation (隐藏开发过程文档)
-# 忽略整个 docs 文件夹，除了有用的文档
-docs/
-!docs/README.md
-
-# 其他开发过程文档
-NOTIFICATION_UPGRADE.md
-QUICK_START.md
-
-# 临时文件和测试
+# Temporary files
 *.tmp
 *.temp
-.DS_Store
 Thumbs.db
 
-# 上传相关
+# Uploads directory (keep .gitkeep as placeholder)
 uploads/
 !uploads/.gitkeep
 
-# 数据库备份和临时SQL文件
+# Database backups (keep SQL scripts)
 *.sql.gz
 backup/
-# 但保留项目需要的SQL脚本
 !database/*.sql
-
-# 保留根目录的主页 README（项目必要文件）
-!README.md

@@ -1,10 +1,12 @@
 <template>
   <GlobalNotification />
+  <ChatBotWindow />
   <router-view />
 </template>
 
 <script setup>
 import GlobalNotification from './components/GlobalNotification.vue'
+import ChatBotWindow from './components/ChatBotWindow.vue'
 </script>
 
 <style>

@@ -13,8 +13,8 @@
                 <span class="balance-value">¥{{ userBalance.toFixed(2) }}</span>
                 <el-button type="primary" size="small" @click="handleRecharge" style="margin-left: 10px;">充值</el-button>
               </div>
-              <!-- AI客服按钮 -->
-              <el-button type="success" @click="handleGoToChat" style="margin: 0 10px; font-weight: bold;">
+              <!-- AI客服浮窗按钮 -->
+              <el-button type="success" @click="openChatWindow" style="margin: 0 10px; font-weight: bold;">
                 💬 AI客服助手
               </el-button>
               <span>欢迎，{{ userInfo.username }}</span>
@@ -242,9 +242,9 @@ const handleGoToCart = () => {
   router.push('/cart')
 }
 
-// 进入AI客服
-const handleGoToChat = () => {
-  router.push('/chatbot')
+// 打开AI客服浮窗
+const openChatWindow = () => {
+  window.dispatchEvent(new Event('open-chatbot'))
 }
 
 // 退出登录

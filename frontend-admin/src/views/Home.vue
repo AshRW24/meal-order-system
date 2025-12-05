@@ -32,6 +32,10 @@
               <el-icon><Document /></el-icon>
               <span>订单管理</span>
             </el-menu-item>
+            <el-menu-item index="/sales">
+              <el-icon><DataAnalysis /></el-icon>
+              <span>销量统计</span>
+            </el-menu-item>
           </el-menu>
         </el-aside>
 
@@ -68,6 +72,7 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessageBox } from 'element-plus'
+import { DataAnalysis } from '@element-plus/icons-vue'
 import { useUserStore } from '../stores/user'
 import request from '../utils/request'
 
