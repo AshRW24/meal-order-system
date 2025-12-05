@@ -1,0 +1,64 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    session:
+      timeout: 30m  # Session 超时时间
+
+spring:
+  application:
+    name: meal-order-system
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/meal_order_system?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 200MB
+
+# MyBatis Plus 配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: isDeleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath*:mapper/**/*.xml
+
+# JWT 配置
+jwt:
+  secret: meal-order-system-secret-key-for-jwt-token-generation-20250101  # JWT密钥
+  expiration: 86400000  # Token过期时间：24小时（毫秒）
+  refreshExpiration: 604800000  # 刷新Token过期时间：7天（毫秒）
+
+# Knife4j 配置
+knife4j:
+  enable: true
+  setting:
+    language: zh-CN
+
+# 文件上传配置
+file:
+  upload:
+    path: D:/SysProject/01_meal_order_system/uploads  # 文件上传路径
+    max-size: 100MB  # 最大文件大小（已取消5MB限制）
+
+# DeepSeek API 配置
+deepseek:
+  api:
+    key: sk-b4014770ac644c349bf25eb7b35b3836  # API Key 硬编码，直接可用，无需环境变量
+    url: https://api.deepseek.com/v1/chat/completions
+    model: deepseek-chat
+    timeout: 30  # 超时时间（秒）

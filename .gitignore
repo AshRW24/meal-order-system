@@ -1,0 +1,67 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+.vite/
+
+# Java
+target/
+*.class
+*.jar
+*.war
+*.ear
+.idea/
+*.iml
+.mvn/
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build
+build/
+out/
+
+# AI Generated Documentation (隐藏开发过程文档)
+# 忽略整个 docs 文件夹，除了有用的文档
+docs/
+!docs/README.md
+
+# 其他开发过程文档
+NOTIFICATION_UPGRADE.md
+QUICK_START.md
+
+# 临时文件和测试
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# 上传相关
+uploads/
+!uploads/.gitkeep
+
+# 数据库备份
+*.sql
+*.sql.gz
+backup/
+
+# 保留根目录的主页 README（项目必要文件）
+!README.md

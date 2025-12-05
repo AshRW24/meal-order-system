@@ -1,0 +1,158 @@
+/* 用户端全局主题配置 - 金黄色+深红色/暗红主题 */
+
+:root {
+  /* 主色 - 金黄色 */
+  --primary-color: #D4AF37;
+  --primary-light: #FFD700;
+  --primary-dark: #B8860B;
+  
+  /* 辅助色 - 深红色/暗红 */
+  --secondary-color: #8B0000;
+  --secondary-light: #A52A2A;
+  --secondary-dark: #5C0000;
+  
+  /* 功能色 */
+  --success-color: #00B42A;
+  --warning-color: #FF7D00;
+  --danger-color: #F53F3F;
+  --info-color: #86909C;
+  
+  /* 中性色 */
+  --bg-color: #eef0f3; /* Updated to a window-desktop background */
+  --bg-white: #FFFFFF;
+  --border-color: #ECECEC;
+  --text-primary: #000000;
+  --text-secondary: #333333;
+  --text-placeholder: #666666;
+}
+
+/* 全局窗口化布局 */
+.app-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--bg-color);
+  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Subtle gradient */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.app-window {
+  width: 100%;
+  max-width: 1280px; /* Fixed resolution feel */
+  height: 90vh; /* Fixed height window */
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0,0,0,0.08);
+  overflow: hidden; /* Clip rounded corners */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+/* 窗口内的滚动区域需显式指定 */
+.window-content {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Element Plus 主题覆盖 */
+.el-button--primary {
+  --el-button-bg-color: var(--primary-color);
+  --el-button-border-color: var(--primary-color);
+  --el-button-hover-bg-color: var(--primary-light);
+  --el-button-hover-border-color: var(--primary-light);
+  --el-button-active-bg-color: var(--primary-dark);
+  --el-button-active-border-color: var(--primary-dark);
+}
+
+.el-button--success {
+  --el-button-bg-color: var(--secondary-color);
+  --el-button-border-color: var(--secondary-color);
+  --el-button-hover-bg-color: var(--secondary-light);
+  --el-button-hover-border-color: var(--secondary-light);
+}
+
+/* 价格深红色 */
+.price-highlight {
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+
+/* 对话框头部样式 */
+.el-dialog__header {
+  background: linear-gradient(135deg, #FFF8DC 0%, #FFE4B5 100%);
+  border-radius: 6px 6px 0 0;
+  padding: 16px 20px;
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+.el-dialog__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* 全局文字颜色为黑色 */
+.el-table {
+  color: var(--text-primary);
+}
+
+.el-table th {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.el-table td {
+  color: var(--text-primary);
+}
+
+.el-form-item__label {
+  color: var(--text-primary);
+}
+
+.el-card__header {
+  color: var(--text-primary);
+}
+
+.el-card__body {
+  color: var(--text-primary);
+}
+
+.el-menu-item {
+  color: var(--text-primary);
+}
+
+.el-menu-item:hover {
+  color: var(--text-primary);
+}
+
+/* 弹窗居中显示 */
+.el-message-box {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0 !important;
+}
+
+.el-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0 !important;
+}
+
+.el-dialog__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

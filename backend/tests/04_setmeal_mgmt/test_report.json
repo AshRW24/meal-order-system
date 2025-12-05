@@ -1,0 +1,49 @@
+{
+  "test_time": "2025-11-03 13:41:11",
+  "total": 8,
+  "passed": 8,
+  "failed": 0,
+  "pass_rate": "100.0%",
+  "details": [
+    {
+      "test": "管理员登录",
+      "passed": true,
+      "message": "用户: admin"
+    },
+    {
+      "test": "分页查询",
+      "passed": true,
+      "message": "总数: 0"
+    },
+    {
+      "test": "新增套餐",
+      "passed": true,
+      "message": "套餐ID: 1"
+    },
+    {
+      "test": "根据ID查询",
+      "passed": true,
+      "message": "套餐名称: 测试套餐-134111"
+    },
+    {
+      "test": "修改套餐",
+      "passed": true,
+      "message": "价格已更新: 88.88"
+    },
+    {
+      "test": "状态切换-下架",
+      "passed": true,
+      "message": "成功设置为停售"
+    },
+    {
+      "test": "状态切换-上架",
+      "passed": true,
+      "message": "成功设置为在售"
+    },
+    {
+      "test": "删除套餐",
+      "passed": true,
+      "message": "逻辑删除成功"
+    }
+  ]
+}
