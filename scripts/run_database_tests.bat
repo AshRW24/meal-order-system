@@ -33,9 +33,24 @@ echo ========================================
 echo Checking database existence...
 echo ========================================
 
-mysql -u root -p%MYSQL_PASSWORD% -e "USE meal_order_system;" >nul 2>&1
+echo Testing MySQL connection...
+mysql -u root -p%MYSQL_PASSWORD% --connect-timeout=5 -e "SELECT 1;" >nul 2>&1
 if errorlevel 1 (
-    echo [WARNING] Database does not exist or password is incorrect
+    echo [ERROR] Cannot connect to MySQL. Please check:
+    echo   1. MySQL service is running
+    echo   2. Port 3306 is not blocked
+    echo   3. Password is correct
+    pause
+    exit /b 1
+)
+
+echo [OK] MySQL connection successful
+echo.
+
+echo Checking if meal_order_system database exists...
+mysql -u root -p%MYSQL_PASSWORD% -e "SHOW DATABASES LIKE 'meal_order_system';" | findstr "meal_order_system" >nul 2>&1
+if errorlevel 1 (
+    echo [WARNING] Database 'meal_order_system' does not exist
     echo.
     echo Do you want to run the database initialization script first? (Y/N)
     set /p INIT_DB=
@@ -49,7 +64,7 @@ if errorlevel 1 (
             exit /b 1
         )
     ) else (
-        echo [CANCEL] Cannot continue testing
+        echo [CANCEL] Cannot continue testing without database
         pause
         exit /b 1
     )
