@@ -27,16 +27,14 @@ public class ChatBotServiceImpl implements ChatBotService {
             .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
             .build();
 
-    private static final String SYSTEM_PROMPT = """
-            你是一个外卖订餐系统的AI客服助手。
-            你的职责是：
-            1. 友善、礼貌地回答用户关于订餐系统的问题
-            2. 帮助用户了解菜品、订单、配送等信息
-            3. 解决用户的常见问题
-            4. 如果用户问的不是关于订餐的问题，也要友善地引导
-
-            请用简洁、亲切的语言回复用户。
-            """;
+    private static final String SYSTEM_PROMPT = "你是一个外卖订餐系统的AI客服助手。\n" +
+            "你的职责是：\n" +
+            "1. 友善、礼貌地回答用户关于订餐系统的问题\n" +
+            "2. 帮助用户了解菜品、订单、配送等信息\n" +
+            "3. 解决用户的常见问题\n" +
+            "4. 如果用户问的不是关于订餐的问题，也要友善地引导\n" +
+            "\n" +
+            "请用简洁、亲切的语言回复用户。";
 
     @Override
     public String chat(String message) throws Exception {
