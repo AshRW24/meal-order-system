@@ -7,7 +7,9 @@
       "Bash(tree:*)",
       "Bash(cat:*)",
       "Bash(dir /s \"D:\\SysProject\\01_meal_order_system\")",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(mysql:*)",
+      "Bash(brew services start mysql@8.4)"
     ],
     "deny": [],
     "ask": []

@@ -150,7 +150,7 @@ const totalAmount = computed(() => {
 
 // 获取图片URL
 const getImageUrl = (url) => {
-  if (!url) return ''
+  if (!url || typeof url !== 'string') return ''
   if (url.startsWith('http')) return url
   return `http://localhost:8080/api${url}`
 }
