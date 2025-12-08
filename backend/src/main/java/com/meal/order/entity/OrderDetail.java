@@ -21,36 +21,43 @@ public class OrderDetail {
     /**
      * 订单ID
      */
+    @TableField("order_id")
     private Long orderId;
 
     /**
      * 商品ID
      */
-    private Long itemId;
+    @TableField("dish_id")
+    private Long dishId;
+
+    /**
+     * 商品套餐ID
+     */
+    @TableField("setmeal_id")
+    private Long setmealId;
 
     /**
      * 商品名称
      */
-    private String itemName;
-
-    /**
-     * 商品类型（1-菜品，2-套餐）
-     */
-    private Integer itemType;
+    @TableField("dish_name")
+    private String dishName;
 
     /**
      * 单价
      */
+    @TableField("price")
     private BigDecimal price;
 
     /**
      * 数量
      */
+    @TableField("quantity")
     private Integer quantity;
 
     /**
      * 小计
      */
+    @TableField("amount")
     private BigDecimal amount;
 
     /**

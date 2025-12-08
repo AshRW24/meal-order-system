@@ -20,17 +20,20 @@ public class SetmealDish {
     /**
      * 套餐ID
      */
+    @TableField("setmeal_id")
     private Long setmealId;
 
     /**
      * 菜品ID
      */
+    @TableField("dish_id")
     private Long dishId;
 
     /**
-     * 菜品数量
+     * 菜品份数
      */
-    private Integer quantity;
+    @TableField("copies")
+    private Integer copies;
 
     /**
      * 创建时间

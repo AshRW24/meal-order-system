@@ -64,7 +64,7 @@ public class SetmealServiceImpl implements SetmealService {
                     SetmealDish setmealDish = new SetmealDish();
                     setmealDish.setSetmealId(setmeal.getId());
                     setmealDish.setDishId(item.getDishId());
-                    setmealDish.setQuantity(item.getQuantity());
+                    setmealDish.setCopies(item.getQuantity());
                     return setmealDish;
                 })
                 .collect(Collectors.toList());
@@ -93,7 +93,7 @@ public class SetmealServiceImpl implements SetmealService {
                     SetmealDish setmealDish = new SetmealDish();
                     setmealDish.setSetmealId(setmealDTO.getId());
                     setmealDish.setDishId(item.getDishId());
-                    setmealDish.setQuantity(item.getQuantity());
+                    setmealDish.setCopies(item.getQuantity());
                     return setmealDish;
                 })
                 .collect(Collectors.toList());
@@ -136,7 +136,7 @@ public class SetmealServiceImpl implements SetmealService {
                 .map(sd -> {
                     SetmealDTO.SetmealDishItem item = new SetmealDTO.SetmealDishItem();
                     item.setDishId(sd.getDishId());
-                    item.setQuantity(sd.getQuantity());
+                    item.setQuantity(sd.getCopies());
                     return item;
                 })
                 .collect(Collectors.toList());

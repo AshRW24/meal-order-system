@@ -87,8 +87,8 @@ public class OrderServiceImpl implements OrderService {
         order.setConsignee(address.getConsignee());
         order.setPhone(address.getPhone());
         // 拼接完整地址
-        String fullAddress = address.getProvince() + address.getCity() +
-                            address.getDistrict() + address.getDetail();
+        String fullAddress = address.getProvinceName() + address.getCityName() +
+                            address.getDistrictName() + address.getDetail();
         order.setAddress(fullAddress);
         order.setOrderTime(LocalDateTime.now());
 
@@ -98,9 +98,15 @@ public class OrderServiceImpl implements OrderService {
         for (ShoppingCart cartItem : cartItems) {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrderId(order.getId());
-            orderDetail.setItemId(cartItem.getItemId());
-            orderDetail.setItemName(cartItem.getItemName());
-            orderDetail.setItemType(cartItem.getItemType());
+            // 根据商品类型设置对应的ID
+            if (cartItem.getItemType() == 1) {
+                // 菜品
+                orderDetail.setDishId(cartItem.getItemId());
+            } else {
+                // 套餐
+                orderDetail.setSetmealId(cartItem.getItemId());
+            }
+            orderDetail.setDishName(cartItem.getItemName());
             orderDetail.setPrice(cartItem.getPrice());
             orderDetail.setQuantity(cartItem.getQuantity());
             orderDetail.setAmount(cartItem.getPrice().multiply(new BigDecimal(cartItem.getQuantity())));

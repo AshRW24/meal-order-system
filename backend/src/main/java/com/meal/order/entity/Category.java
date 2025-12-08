@@ -20,21 +20,25 @@ public class Category {
     /**
      * 分类名称
      */
+    @TableField("name")
     private String name;
 
     /**
      * 类型（1-菜品分类，2-套餐分类）
      */
+    @TableField("type")
     private Integer type;
 
     /**
      * 排序号
      */
+    @TableField("sort")
     private Integer sort;
 
     /**
      * 状态（1-启用，0-禁用）
      */
+    @TableField("status")
     private Integer status;
 
     /**
