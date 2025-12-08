@@ -296,21 +296,21 @@ DELETE FROM `shopping_cart`;
 ALTER TABLE `shopping_cart` AUTO_INCREMENT = 1;
 
 INSERT INTO `shopping_cart`
-(`user_id`, `dish_id`, `setmeal_id`, `dish_name`, `price`, `quantity`, `create_time`, `update_time`)
+(`user_id`, `item_id`, `item_name`, `item_type`, `price`, `quantity`, `image`, `create_time`)
 VALUES
 -- user001 (id=2) 的购物车
-(2, 1, NULL, '宫保鸡丁', 38.00, 2, NOW(), NOW()),
-(2, 2, NULL, '水煮牛肉', 48.00, 1, NOW(), NOW()),
-(2, NULL, 1, '商务午餐精选', 68.00, 1, NOW(), NOW()),
+(2, 1, '宫保鸡丁', 1, 38.00, 2, '/uploads/2025/12/08/dish_1.png', NOW()),
+(2, 2, '水煮牛肉', 1, 48.00, 1, '/uploads/2025/12/08/dish_2.png', NOW()),
+(2, 1, '商务午餐精选', 2, 68.00, 1, '/uploads/2025/12/08/setmeal_1.png', NOW()),
 
 -- user002 (id=3) 的购物车
-(3, 11, NULL, '清蒸鱼', 48.00, 1, NOW(), NOW()),
-(3, 41, NULL, '西湖醋鱼', 52.00, 1, NOW(), NOW()),
-(3, NULL, 3, '经理快餐套餐', 72.00, 1, NOW(), NOW()),
+(3, 11, '清蒸鱼', 1, 48.00, 1, '/uploads/2025/12/08/dish_11.png', NOW()),
+(3, 41, '西湖醋鱼', 1, 52.00, 1, '/uploads/2025/12/08/dish_41.png', NOW()),
+(3, 3, '经理快餐套餐', 2, 72.00, 1, '/uploads/2025/12/08/setmeal_3.png', NOW()),
 
 -- user003 (id=4) 的购物车
-(4, 27, NULL, '葱爆海参', 58.00, 1, NOW(), NOW()),
-(4, NULL, 4, '董事长套餐', 108.00, 1, NOW(), NOW());
+(4, 27, '葱爆海参', 1, 58.00, 1, '/uploads/2025/12/08/dish_27.png', NOW()),
+(4, 4, '董事长套餐', 2, 108.00, 1, '/uploads/2025/12/08/setmeal_4.png', NOW());
 
 -- ============================================================
 -- 9. 插入订单详情数据
