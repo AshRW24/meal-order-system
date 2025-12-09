@@ -9,7 +9,10 @@
       "Bash(dir /s \"D:\\SysProject\\01_meal_order_system\")",
       "Bash(dir:*)",
       "Bash(mysql:*)",
-      "Bash(brew services start mysql@8.4)"
+      "Bash(brew services start mysql@8.4)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd MySQL PATH environment configuration script\n\n- Added 设置环境变量.bat to automatically add MySQL to system PATH\n- Updated 初始化数据库.bat with dual-mode detection:\n  * First tries to find mysql in system PATH\n  * Falls back to default installation path\n- Both scripts provide clear error messages and solutions\n- Supports running with or without environment variables configured\n\n🤖 Generated with Claude Code\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
