@@ -79,13 +79,6 @@ if %ERRORLEVEL% NEQ 0 (
 ) else (
     echo [OK] Database initialized
 )
-
-mysql -u root -p123456 < test_data.sql >nul 2>&1
-if %ERRORLEVEL% NEQ 0 (
-    echo [WARNING] Test data import failed or already exists
-) else (
-    echo [OK] Test data imported
-)
 echo.
 
 REM ==========================================
