@@ -99,11 +99,9 @@ public class OrderServiceImpl implements OrderService {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrderId(order.getId());
             // 根据商品类型设置对应的ID
-            if (cartItem.getItemType() == 1) {
-                // 菜品
+            if (cartItem.getItemType() != null && cartItem.getItemType() == 1) {
                 orderDetail.setDishId(cartItem.getItemId());
-            } else {
-                // 套餐
+            } else if (cartItem.getItemType() != null && cartItem.getItemType() == 2) {
                 orderDetail.setSetmealId(cartItem.getItemId());
             }
             orderDetail.setDishName(cartItem.getItemName());

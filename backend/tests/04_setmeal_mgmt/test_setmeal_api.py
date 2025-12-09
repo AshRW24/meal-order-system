@@ -58,7 +58,7 @@ def test_add_setmeal():
     # 套餐分类ID: 16, 菜品ID: 4, 5
     data = {
         "name": f"测试套餐-{datetime.now().strftime('%H%M%S')}",
-        "categoryId": 16,  # 测试套餐分类
+        "categoryId": 7,  # 商务套餐分类（存在于数据库中）
         "price": 99.99,
         "image": "http://example.com/test.jpg",
         "description": "这是一个测试套餐",
@@ -247,10 +247,12 @@ def main():
         "details": test_results
     }
 
-    with open("backend/tests/04_setmeal_mgmt/test_report.json", "w", encoding="utf-8") as f:
+    # 使用正确的相对路径
+    report_path = "tests/04_setmeal_mgmt/test_report.json"
+    with open(report_path, "w", encoding="utf-8") as f:
         json.dump(report, f, ensure_ascii=False, indent=2)
 
-    print("测试报告已保存: backend/tests/04_setmeal_mgmt/test_report.json")
+    print(f"测试报告已保存: {report_path}")
 
     return passed == total
 

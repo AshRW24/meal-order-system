@@ -21,13 +21,28 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     /**
      * 请求前置处理
-     * 验证Token有效性
+     * 验证Token有效性或Session中的用户信息
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 处理OPTIONS请求
         if ("OPTIONS".equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
+            return true;
+        }
+
+        // 首先检查Session中是否有用户信息
+        Object userIdObj = request.getSession().getAttribute("userId");
+        if (userIdObj != null) {
+            // Session中有用户信息，将其存储到request中
+            Long userId = (Long) userIdObj;
+            Object usernameObj = request.getSession().getAttribute("username");
+            String username = usernameObj != null ? (String) usernameObj : "";
+            
+            request.setAttribute("userId", userId);
+            request.setAttribute("username", username);
+            
+            log.debug("Session验证成功，userId: {}, username: {}", userId, username);
             return true;
         }
 

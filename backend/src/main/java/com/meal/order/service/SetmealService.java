@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.meal.order.dto.SetmealDTO;
 import com.meal.order.entity.Setmeal;
 
+import java.util.List;
+
 /**
  * 套餐Service接口
  */
@@ -37,4 +39,9 @@ public interface SetmealService {
      * 修改套餐状态（上下架）
      */
     void updateStatus(Long id, Integer status);
+
+    /**
+     * 查询用户端在售套餐列表
+     */
+    List<Setmeal> listAvailableSetmeals(Long categoryId);
 }

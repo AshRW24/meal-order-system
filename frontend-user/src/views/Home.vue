@@ -31,11 +31,16 @@
               <template #header>
                 <div class="category-header">
                   <el-icon><Grid /></el-icon>
-                  <span>菜品分类</span>
+                  <el-tabs v-model="activeTab" class="type-tabs">
+                    <el-tab-pane label="菜品" name="dish" />
+                    <el-tab-pane label="套餐" name="setmeal" />
+                  </el-tabs>
                 </div>
               </template>
 
+              <!-- 菜品分类 -->
               <el-menu
+                v-if="activeTab === 'dish'"
                 :default-active="selectedCategoryId ? selectedCategoryId.toString() : ''"
                 @select="handleCategorySelect"
               >
@@ -52,12 +57,33 @@
                   <span>{{ category.name }}</span>
                 </el-menu-item>
               </el-menu>
+
+              <!-- 套餐分类 -->
+              <el-menu
+                v-if="activeTab === 'setmeal'"
+                :default-active="selectedSetmealCategoryId ? selectedSetmealCategoryId.toString() : ''"
+                @select="handleSetmealCategorySelect"
+              >
+                <el-menu-item index="">
+                  <el-icon><TakeawayBox /></el-icon>
+                  <span>全部套餐</span>
+                </el-menu-item>
+                <el-menu-item
+                  v-for="category in setmealCategoryList"
+                  :key="category.id"
+                  :index="category.id.toString()"
+                >
+                  <el-icon><Food /></el-icon>
+                  <span>{{ category.name }}</span>
+                </el-menu-item>
+              </el-menu>
             </el-card>
           </el-aside>
 
-          <!-- 右侧菜品列表 -->
+          <!-- 右侧菜品/套餐列表 -->
           <el-main class="dish-main">
-            <el-card class="dish-card">
+            <!-- 菜品展示 -->
+            <el-card v-if="activeTab === 'dish'" class="dish-card">
               <template #header>
                 <div class="dish-header">
                   <div>
@@ -117,6 +143,68 @@
                 </el-card>
               </div>
             </el-card>
+
+            <!-- 套餐展示 -->
+            <el-card v-if="activeTab === 'setmeal'" class="dish-card">
+              <template #header>
+                <div class="dish-header">
+                  <div>
+                    <el-icon><ShoppingCart /></el-icon>
+                    <span class="title">
+                      {{ selectedSetmealCategoryId ? getSetmealCategoryName(selectedSetmealCategoryId) : '全部套餐' }}
+                    </span>
+                  </div>
+                  <span class="dish-count">共 {{ setmealList.length }} 个套餐</span>
+                </div>
+              </template>
+
+              <!-- 套餐网格 -->
+              <div v-loading="loading" class="dish-grid">
+                <el-empty v-if="!loading && setmealList.length === 0" description="暂无套餐" />
+
+                <el-card
+                  v-for="setmeal in setmealList"
+                  :key="setmeal.id"
+                  shadow="hover"
+                  class="dish-item-card"
+                >
+                  <!-- 套餐图片 -->
+                  <div class="dish-image-container">
+                    <el-image
+                      v-if="setmeal.image"
+                      :src="getImageUrl(setmeal.image)"
+                      fit="cover"
+                      class="dish-image"
+                      :preview-src-list="[getImageUrl(setmeal.image)]"
+                      :preview-teleported="true"
+                    >
+                      <template #error>
+                        <div class="image-error">
+                          <el-icon :size="40"><Picture /></el-icon>
+                        </div>
+                      </template>
+                    </el-image>
+                    <div v-else class="image-error">
+                      <el-icon :size="40"><Picture /></el-icon>
+                    </div>
+                  </div>
+
+                  <!-- 套餐信息 -->
+                  <div class="dish-info">
+                    <h3 class="dish-name">{{ setmeal.name }}</h3>
+                    <p class="dish-description">{{ setmeal.description || '暂无描述' }}</p>
+
+                    <div class="dish-footer">
+                      <div class="dish-price">
+                        <span class="price-label">¥</span>
+                        <span class="price-value">{{ setmeal.price }}</span>
+                      </div>
+                      <el-button type="primary" :icon="ShoppingCart" circle @click="handleAddSetmealToCart(setmeal)" />
+                    </div>
+                  </div>
+                </el-card>
+              </div>
+            </el-card>
           </el-main>
         </el-container>
       </el-container>
@@ -131,6 +219,7 @@ import { ElMessage } from 'element-plus'
 import { ShoppingCart, Grid, Food, TakeawayBox, Picture } from '@element-plus/icons-vue'
 import { getCategoryList } from '../api/category'
 import { getDishList } from '../api/dish'
+import { getSetmealList } from '../api/setmeal'
 import { addToCart } from '../api/cart'
 import { getBalance } from '../api/user'
 import request from '../utils/request'
@@ -140,10 +229,18 @@ const userInfo = ref({})
 const userBalance = ref(0)
 const loading = ref(false)
 
-// 分类和菜品数据
+// 标签页选择
+const activeTab = ref('dish')
+
+// 菜品相关数据
 const categoryList = ref([])
 const dishList = ref([])
 const selectedCategoryId = ref(null)
+
+// 套餐相关数据
+const setmealCategoryList = ref([])
+const setmealList = ref([])
+const selectedSetmealCategoryId = ref(null)
 
 // 加载余额
 const loadBalance = async () => {
@@ -171,11 +268,13 @@ onMounted(() => {
   }
 
   loadCategoryList()
+  loadSetmealCategoryList()
   loadDishList()
+  loadSetmealList()
   loadBalance()
 })
 
-// 加载分类列表
+// 加载菜品分类列表
 const loadCategoryList = async () => {
   try {
     const res = await getCategoryList({ type: 1 })  // 只查询菜品分类
@@ -183,7 +282,19 @@ const loadCategoryList = async () => {
       categoryList.value = res.data
     }
   } catch (error) {
-    console.error('加载分类列表失败:', error)
+    console.error('加载菜品分类列表失败:', error)
+  }
+}
+
+// 加载套餐分类列表
+const loadSetmealCategoryList = async () => {
+  try {
+    const res = await getCategoryList({ type: 2 })  // 只查询套餐分类
+    if (res.code === 200) {
+      setmealCategoryList.value = res.data
+    }
+  } catch (error) {
+    console.error('加载套餐分类列表失败:', error)
   }
 }
 
@@ -202,15 +313,42 @@ const loadDishList = async (categoryId = null) => {
   }
 }
 
-// 选择分类
+// 加载套餐列表
+const loadSetmealList = async (categoryId = null) => {
+  loading.value = true
+  try {
+    const res = await getSetmealList({ categoryId })
+    if (res.code === 200) {
+      setmealList.value = res.data
+    }
+  } catch (error) {
+    window.$notification?.error('加载套餐列表失败')
+  } finally {
+    loading.value = false
+  }
+}
+
+// 选择菜品分类
 const handleCategorySelect = (index) => {
   selectedCategoryId.value = index ? Number(index) : null
   loadDishList(selectedCategoryId.value)
 }
 
-// 获取分类名称
+// 选择套餐分类
+const handleSetmealCategorySelect = (index) => {
+  selectedSetmealCategoryId.value = index ? Number(index) : null
+  loadSetmealList(selectedSetmealCategoryId.value)
+}
+
+// 获取菜品分类名称
 const getCategoryName = (categoryId) => {
   const category = categoryList.value.find(c => c.id === categoryId)
+  return category ? category.name : ''
+}
+
+// 获取套餐分类名称
+const getSetmealCategoryName = (categoryId) => {
+  const category = setmealCategoryList.value.find(c => c.id === categoryId)
   return category ? category.name : ''
 }
 
@@ -221,12 +359,28 @@ const getImageUrl = (url) => {
   return `http://localhost:8080/api${url}`
 }
 
-// 添加到购物车
+// 添加菜品到购物车
 const handleAddToCart = async (dish) => {
   try {
     const res = await addToCart({
       itemId: dish.id,
       itemType: 1,  // 1-菜品
+      quantity: 1
+    })
+    if (res.code === 200) {
+      window.$notification?.success('添加成功')
+    }
+  } catch (error) {
+    window.$notification?.error('添加失败')
+  }
+}
+
+// 添加套餐到购物车
+const handleAddSetmealToCart = async (setmeal) => {
+  try {
+    const res = await addToCart({
+      itemId: setmeal.id,
+      itemType: 2,  // 2-套餐
       quantity: 1
     })
     if (res.code === 200) {
@@ -335,6 +489,27 @@ const handleLogout = async () => {
   border: none; /* Clean look inside window */
   box-shadow: none !important;
 }
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.type-tabs {
+  flex: 1;
+}
+
+:deep(.type-tabs .el-tabs__nav) {
+  display: flex;
+  justify-content: space-around;
+}
+
+:deep(.type-tabs .el-tabs__item) {
+  flex: 1;
+  text-align: center;
+}
+
 /* ... rest same ... */
 
 /* 右侧菜品列表 */

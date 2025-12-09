@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     @Transactional
     public void add(Long userId, ShoppingCartDTO dto) {
-        // 1. 检查商品是否存在
+        // 1. 检查商品是否存在并读取必要信息
         String itemName;
         String image;
         java.math.BigDecimal price;
@@ -63,11 +64,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             throw new BusinessException("商品类型错误");
         }
 
-        // 2. 查询购物车中是否已存在该商品
+        // 2. 查询购物车中是否已存在该商品（按用户+商品ID+类型唯一）
         LambdaQueryWrapper<ShoppingCart> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ShoppingCart::getUserId, userId)
-               .eq(ShoppingCart::getItemId, dto.getItemId())
-               .eq(ShoppingCart::getItemType, dto.getItemType());
+        wrapper.eq(ShoppingCart::getUserId, userId);
+        wrapper.eq(ShoppingCart::getItemId, dto.getItemId());
+        wrapper.eq(ShoppingCart::getItemType, dto.getItemType());
+        
         ShoppingCart existCart = shoppingCartMapper.selectOne(wrapper);
 
         if (existCart != null) {
@@ -78,12 +80,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             // 不存在，新增
             ShoppingCart newCart = new ShoppingCart();
             newCart.setUserId(userId);
-            newCart.setItemId(dto.getItemId());
             newCart.setItemName(itemName);
-            newCart.setItemType(dto.getItemType());
             newCart.setPrice(price);
             newCart.setQuantity(dto.getQuantity());
             newCart.setImage(image);
+            newCart.setItemId(dto.getItemId());
+            newCart.setItemType(dto.getItemType());
+            newCart.setCreateTime(LocalDateTime.now());
             shoppingCartMapper.insert(newCart);
         }
     }

@@ -13,57 +13,39 @@ import java.time.LocalDateTime;
 @TableName("shopping_cart")
 public class ShoppingCart {
 
-    /**
-     * 主键ID
-     */
+    /** 主键ID */
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    /**
-     * 用户ID
-     */
+    /** 用户ID */
     @TableField("user_id")
     private Long userId;
 
-    /**
-     * 商品ID（菜品或套餐）
-     */
-    @TableField("item_id")
-    private Long itemId;
-
-    /**
-     * 商品名称
-     */
-    @TableField("item_name")
-    private String itemName;
-
-    /**
-     * 商品类型（1-菜品，2-套餐）
-     */
+    /** 商品类型：1-菜品，2-套餐 */
     @TableField("item_type")
     private Integer itemType;
 
-    /**
-     * 单价
-     */
-    @TableField("price")
-    private BigDecimal price;
+    /** 商品ID（菜品或套餐ID） */
+    @TableField("item_id")
+    private Long itemId;
 
-    /**
-     * 数量
-     */
-    @TableField("quantity")
-    private Integer quantity;
+    /** 商品名称 */
+    @TableField("item_name")
+    private String itemName;
 
-    /**
-     * 商品图片
-     */
+    /** 商品图片 */
     @TableField("image")
     private String image;
 
-    /**
-     * 创建时间
-     */
-    @TableField(fill = FieldFill.INSERT)
+    /** 单价 */
+    @TableField("price")
+    private BigDecimal price;
+
+    /** 数量 */
+    @TableField("quantity")
+    private Integer quantity;
+
+    /** 创建时间 */
+    @TableField("create_time")
     private LocalDateTime createTime;
 }

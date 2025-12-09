@@ -49,6 +49,13 @@ knife4j:
   setting:
     language: zh-CN
 
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.meal.order: DEBUG
+    org.springframework.jdbc: DEBUG
+
 # 文件上传配置
 file:
   upload:

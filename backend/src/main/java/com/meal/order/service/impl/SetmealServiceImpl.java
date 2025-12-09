@@ -153,4 +153,20 @@ public class SetmealServiceImpl implements SetmealService {
         setmeal.setStatus(status);
         setmealMapper.updateById(setmeal);
     }
+
+    @Override
+    public List<Setmeal> listAvailableSetmeals(Long categoryId) {
+        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
+
+        // 只查询在售套餐（status = 1）
+        queryWrapper.eq(Setmeal::getStatus, 1);
+
+        // 如果指定了分类ID，则按分类查询
+        queryWrapper.eq(categoryId != null, Setmeal::getCategoryId, categoryId);
+
+        // 按更新时间降序排序
+        queryWrapper.orderByDesc(Setmeal::getUpdateTime);
+
+        return setmealMapper.selectList(queryWrapper);
+    }
 }
