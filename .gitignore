@@ -1,5 +1,11 @@
 # Ignore only docs folder and common development artifacts
 docs/
+.claude/
+GITHUB_PUSH_GUIDE.md
+QUICK_START.md
+SYSTEM_REVIEW.md
+image.png
+query
 
 # macOS
 .DS_Store
