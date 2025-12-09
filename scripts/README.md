@@ -1,75 +1,179 @@
-# Startup Scripts Guide
+# 启动脚本说明
 
-This directory contains the project's startup scripts, all using **relative paths** and can be run from any location.
+本目录包含项目启动脚本，所有脚本都支持 UTF-8 编码，使用相对路径。
 
-## 🚀 Quick Start
+## 🚀 快速开始
 
-1. **Initialize Database** (first time or structure inconsistency): Double-click run `initialize_database.bat`, script will create database, tables and import test data sequentially.
-2. **Start All Services** (backend + admin frontend + user frontend): Double-click run `start_all_services.bat`, script will automatically install frontend dependencies and open three windows sequentially.
-3. **Stop All Services**: When testing is complete or needs restart, double-click `stop_all_services.bat`, will release 8080/5173/5174 ports.
+三个核心脚本：
 
-## 📋 Script List
+| 脚本名称 | 说明 | 执行时机 |
+|---------|------|--------|
+| **初始化数据库.bat** | 创建数据库、表、导入测试数据 | 首次使用必做 |
+| **一键启动所有服务.bat** | 启动后端 + 管理端 + 用户端 | 每次开发使用 |
+| **停止所有服务.bat** | 停止所有服务，释放占用的端口 | 需要时使用 |
 
-Four BAT scripts that support UTF-8 encoding:
+## 📍 使用步骤
 
-| Script | Description |
-|--------|-------------|
-| `initialize_database.bat` | Initialize database structure + test data (required for first run) |
-| `start_all_services.bat` | Start backend, admin frontend, user frontend and automatically install dependencies |
-| `stop_all_services.bat` | Kill processes using the above ports to allow restart |
-| `run_database_tests.bat` | Execute database test queries to verify data integrity |
-
-## 🌐 Default Ports
-
-- **Backend Service**: http://localhost:8080
-- **Backend API Docs**: http://localhost:8080/api/doc.html
-- **Admin Frontend**: http://localhost:5173
-- **User Frontend**: http://localhost:5174
-
-## ❓ FAQ
-
-### 1. Port Occupied
-**Error**：`Port 8080 is already in use`
-
-**Solution**：
+### 第一步：初始化数据库（仅首次）
 
 ```batch
-REM Double-click to run stop script
-.\scripts\stop_all_services.bat
+双击运行: 初始化数据库.bat
 ```
 
-### 2. Frontend Dependencies Not Installed
-**Error**：`'vite' is not recognized as an internal or external command`
+**脚本会自动执行：**
+- ✅ 连接到 MySQL（root / 123456）
+- ✅ 创建 `meal_order_system` 数据库
+- ✅ 导入表结构 (init.sql)
+- ✅ 导入测试数据 (test_data.sql)
 
-**Solution**：
+**前置条件：**
+- MySQL 已启动
+- 用户名: root
+- 密码: 123456
+- 默认端口: 3306
 
-Run `start_all_services.bat` directly, the script will automatically check and install dependencies.
+### 第二步：启动所有服务
 
-
-## 🔧 Environment Requirements
-
-Ensure the following environments are installed:
-- **Java**: 8 or higher
-- **Maven**: 3.6+
-- **Node.js**: 16+ and npm
-- **MySQL**: 5.7+ (database service needs to be started)
-
-## 💾 Database Configuration
-
-Ensure MySQL database is started and database is created:
-```sql
-CREATE DATABASE meal_order_system CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```batch
+双击运行: 一键启动所有服务.bat
 ```
 
-Default configuration (can be modified in `backend/src/main/resources/application.yml`):
-- Host: localhost:3306
-- Database: meal_order_system
-- Username: root
-- Password: 123456
+**脚本会自动执行：**
+1. 检查并安装前端依赖（首次启动较慢）
+2. 启动后端服务 (Port: 8080)
+3. 启动管理端 (Port: 5173)
+4. 启动用户端 (Port: 5174)
 
-## 📝 Script Features
+**首次启动后端需要 30-60 秒的编译时间**
 
-- ✅ **Relative Path Support**: All scripts use relative paths, project can be placed anywhere
-- ✅ **Automatic Dependency Check**: Frontend scripts automatically check and install dependencies
-- ✅ **Port Occupation Detection**: Backend startup scripts detect port occupation
-- ✅ **English Interface**: All prompt messages are in English for international use
+### 第三步：访问应用
+
+启动完成后，在浏览器中访问：
+
+| 应用 | 地址 | 账号 | 密码 |
+|------|------|------|------|
+| 🖥️ 管理端 | http://localhost:5173 | admin | 123456 |
+| 📱 用户端 | http://localhost:5174 | user001 | 123456 |
+| 📖 API文档 | http://localhost:8080/api/doc.html | - | - |
+
+## 🛑 停止服务
+
+```batch
+双击运行: 停止所有服务.bat
+```
+
+**脚本会自动关闭：**
+- ✅ 后端服务 (Port 8080)
+- ✅ 管理端 (Port 5173)
+- ✅ 用户端 (Port 5174)
+
+## 🔧 环境要求
+
+| 组件 | 最低版本 | 说明 |
+|------|---------|------|
+| Java | 17+ | 后端运行环境 |
+| Maven | 3.9+ | 后端构建工具 |
+| Node.js | 22+ | 前端运行环境 |
+| npm | 10+ | 前端包管理器 |
+| MySQL | 8.0+ | 数据库服务 |
+
+## ❓ 常见问题
+
+### Q1: 数据库初始化失败
+
+**错误信息：**
+```
+[错误] 无法连接到 MySQL！
+```
+
+**解决方案：**
+1. 确保 MySQL 服务已启动
+2. 验证用户名是否为 `root`
+3. 验证密码是否为 `123456`
+4. 检查 MySQL 是否在默认端口 3306
+
+```bash
+# 测试 MySQL 连接
+mysql -u root -p123456 -e "SELECT 1;"
+```
+
+### Q2: 端口被占用
+
+**错误信息：**
+```
+Port 8080 is already in use
+```
+
+**解决方案：**
+```batch
+# 运行停止脚本释放端口
+停止所有服务.bat
+
+# 或手动查看占用情况
+netstat -ano | findstr :8080
+```
+
+### Q3: 前端依赖安装失败
+
+**错误信息：**
+```
+npm ERR! code ERESOLVE
+```
+
+**解决方案：**
+```bash
+# 手动清理并重新安装
+cd frontend-admin
+rm -rf node_modules package-lock.json
+npm install
+
+cd ../frontend-user
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Q4: 后端启动缓慢
+
+**原因：** 首次启动需要下载 Maven 依赖并编译项目
+
+**解决方案：** 耐心等待，通常需要 30-60 秒
+
+## 📝 脚本特性
+
+✅ **UTF-8 编码支持** - 完美支持中文文件名和中文输出
+✅ **相对路径** - 项目可放在任意位置
+✅ **自动依赖检查** - 前端脚本自动检查并安装依赖
+✅ **错误处理** - 完整的错误检测和提示
+✅ **中文界面** - 所有提示信息采用中文
+
+## 🔐 数据库配置
+
+**默认配置：**
+```yaml
+url: jdbc:mysql://localhost:3306/meal_order_system
+username: root
+password: 123456
+```
+
+修改配置：编辑 `backend/src/main/resources/application.yml`
+
+## 📊 测试数据
+
+脚本导入的测试数据包括：
+- 👤 **用户**: admin（管理员）、user001-user004（普通用户）
+- 🍜 **菜品**: 20+ 道菜品，分布在多个分类
+- 🎁 **套餐**: 4 个套餐组合
+- 📋 **订单**: 示例订单数据
+
+## 🎯 下一步
+
+1. ✅ 运行 `初始化数据库.bat` 初始化数据
+2. ✅ 运行 `一键启动所有服务.bat` 启动应用
+3. ✅ 访问 http://localhost:5173 查看管理端
+4. ✅ 访问 http://localhost:5174 查看用户端
+5. ✅ 访问 http://localhost:8080/api/doc.html 查看 API 文档
+
+---
+
+**项目版本**: 1.0.0
+**最后更新**: 2025-12-09
